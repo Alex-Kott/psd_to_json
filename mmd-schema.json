@@ -1,0 +1,461 @@
+{
+  "definitions": {},
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "http://example.com/root.json",
+  "type": "object",
+  "title": "MMD file format",
+  "default": null,
+  "required": [
+    "layers",
+    "name",
+    "size"
+  ],
+  "properties": {
+    "layers": {
+      "$id": "#/properties/layers",
+      "type": "array",
+      "title": "Layers array",
+      "default": null,
+      "items": {
+        "$id": "#/properties/layers/items",
+        "type": "object",
+        "title": "Layer object",
+        "default": null,
+        "required": [
+          "backgroundColor",
+          "bounds",
+          "filters",
+          "layername",
+          "name",
+          "opacity",
+          "size",
+          "src",
+          "type",
+          "visibility",
+          "id",
+          "blendMode",
+          "position"
+        ],
+        "properties": {
+          "backgroundColor": {
+            "$id": "#/properties/layers/items/properties/backgroundColor",
+            "type": "string",
+            "title": "Background color",
+            "default": "",
+            "examples": [
+              "rgb(255,255,255)"
+            ]
+          },
+          "bounds": {
+            "$id": "#/properties/layers/items/properties/bounds",
+            "type": "array",
+            "title": "Bounds array",
+            "description": "Layer position coordinates. From PSD bounds[0] -> x, bounds[1] -> y, bounds[2] -> width, bounds[3] -> height.",
+            "default": null,
+            "items": {
+              "$id": "#/properties/layers/items/properties/bounds/items",
+              "type": "integer",
+              "title": "Bounds coordinates",
+              "default": 0,
+              "examples": [
+                169,
+                286,
+                984,
+                1190
+              ]
+            }
+          },
+          "child_object": {
+            "$id": "#/properties/layers/items/properties/child_object",
+            "type": "object",
+            "title": "Child object",
+            "description": "Child objects for smart object type layers",
+            "default": null,
+            "required": [
+              "layers",
+              "placeholder",
+              "size"
+            ],
+            "properties": {
+              "layers": {
+                "$id": "#/properties/layers/items/properties/child_object/properties/layers",
+                "type": "array",
+                "title": "Layers array",
+                "default": null,
+                "items": {
+                  "$id": "#/properties/layers/items/properties/child_object/properties/layers/items",
+                  "type": "object",
+                  "title": "Layer object",
+                  "default": null,
+                  "required": [
+                    "bounds",
+                    "name",
+                    "opacity",
+                    "src",
+                    "visibility"
+                  ],
+                  "properties": {
+                    "bounds": {
+                      "$id": "#/properties/layers/items/properties/child_object/properties/layers/items/properties/bounds",
+                      "type": "array",
+                      "title": "Bounds",
+                      "default": null,
+                      "items": {
+                        "$id": "#/properties/layers/items/properties/child_object/properties/layers/items/properties/bounds/items",
+                        "type": "integer",
+                        "title": "Bounds values",
+                        "default": 0,
+                        "examples": [
+                          0,
+                          0,
+                          1019,
+                          1019
+                        ]
+                      }
+                    },
+                    "name": {
+                      "$id": "#/properties/layers/items/properties/child_object/properties/layers/items/properties/name",
+                      "type": "string",
+                      "title": "Name",
+                      "default": "",
+                      "examples": [
+                        "PLACEHOLDER"
+                      ],
+                      "pattern": "^(.*)$"
+                    },
+                    "opacity": {
+                      "$id": "#/properties/layers/items/properties/child_object/properties/layers/items/properties/opacity",
+                      "type": "integer",
+                      "title": "Opacity",
+                      "default": 0,
+                      "examples": [
+                        100
+                      ]
+                    },
+                    "src": {
+                      "$id": "#/properties/layers/items/properties/child_object/properties/layers/items/properties/src",
+                      "type": "string",
+                      "title": "Image data in base64 png",
+                      "default": "",
+                      "examples": [
+                        "data:image/png;base64"
+                      ],
+                      "pattern": "^(.*)$"
+                    },
+                    "visibility": {
+                      "$id": "#/properties/layers/items/properties/child_object/properties/layers/items/properties/visibility",
+                      "type": "boolean",
+                      "title": "Visibility boolean",
+                      "default": false,
+                      "examples": [
+                        true
+                      ]
+                    }
+                  }
+                }
+              },
+              "size": {
+                "$id": "#/properties/layers/items/properties/child_object/properties/size",
+                "type": "object",
+                "title": "Size",
+                "default": null,
+                "required": [
+                  "height",
+                  "width"
+                ],
+                "properties": {
+                  "height": {
+                    "$id": "#/properties/layers/items/properties/child_object/properties/size/properties/height",
+                    "type": "integer",
+                    "title": "Height",
+                    "default": 0,
+                    "examples": [
+                      1019
+                    ]
+                  },
+                  "width": {
+                    "$id": "#/properties/layers/items/properties/child_object/properties/size/properties/width",
+                    "type": "integer",
+                    "title": "Width",
+                    "default": 0,
+                    "examples": [
+                      1019
+                    ]
+                  }
+                }
+              }
+            }
+          },
+          "filters": {
+            "$id": "#/properties/layers/items/properties/filters",
+            "type": "object",
+            "title": "Filters object",
+            "required": [
+              "perspective"
+            ],
+            "properties": {
+              "perspective": {
+                "$id": "#/properties/layers/items/properties/filters/properties/perspective",
+                "type": "object",
+                "title": "Perspective",
+                "description": "Transformation warp coords",
+                "default": null,
+                "required": [
+                  "active",
+                  "corners",
+                  "filter",
+                  "name",
+                  "slug"
+                ],
+                "properties": {
+                  "active": {
+                    "$id": "#/properties/layers/items/properties/filters/properties/perspective/properties/active",
+                    "type": "boolean",
+                    "title": "Active boolean",
+                    "default": false,
+                    "examples": [
+                      true
+                    ]
+                  },
+                  "corners": {
+                    "$id": "#/properties/layers/items/properties/filters/properties/perspective/properties/corners",
+                    "type": "array",
+                    "title": "Corners array",
+                    "description": "Transformation warp coords",
+                    "default": null,
+                    "items": {
+                      "$id": "#/properties/layers/items/properties/filters/properties/perspective/properties/corners/items",
+                      "type": "object",
+                      "title": "Transformation warp cords object",
+                      "default": null,
+                      "required": [
+                        "x",
+                        "y"
+                      ],
+                      "properties": {
+                        "x": {
+                          "$id": "#/properties/layers/items/properties/filters/properties/perspective/properties/corners/items/properties/x",
+                          "type": "number",
+                          "title": "X",
+                          "default": 0,
+                          "examples": [
+                            169.04581264104723
+                          ]
+                        },
+                        "y": {
+                          "$id": "#/properties/layers/items/properties/filters/properties/perspective/properties/corners/items/properties/y",
+                          "type": "number",
+                          "title": "Y",
+                          "default": 0,
+                          "examples": [
+                            284.1068842549331
+                          ]
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "layername": {
+            "$id": "#/properties/layers/items/properties/layername",
+            "type": "string",
+            "title": "Layer name",
+            "default": "",
+            "examples": [
+              "Case Shadows/Highlights"
+            ],
+            "pattern": "^(.*)$"
+          },
+          "name": {
+            "$id": "#/properties/layers/items/properties/name",
+            "type": "string",
+            "title": "Layer name",
+            "description": "Without prefix \"mm_[msk|img|clr|cbx|txt]:\"",
+            "default": "",
+            "examples": [
+              "Case Shadows/Highlights"
+            ],
+            "pattern": "^(.*)$"
+          },
+          "opacity": {
+            "$id": "#/properties/layers/items/properties/opacity",
+            "type": "integer",
+            "title": "Layer opacity",
+            "default": 0,
+            "examples": [
+              100
+            ]
+          },
+          "size": {
+            "$id": "#/properties/layers/items/properties/size",
+            "type": "object",
+            "title": "Layer size",
+            "description": "width: bounds[0] + bounds[2], height: bounds[1] + bounds[3]",
+            "default": null,
+            "required": [
+              "height",
+              "width"
+            ],
+            "properties": {
+              "height": {
+                "$id": "#/properties/layers/items/properties/size/properties/height",
+                "type": "integer",
+                "title": "Layer height",
+                "default": 0,
+                "examples": [
+                  1476
+                ]
+              },
+              "width": {
+                "$id": "#/properties/layers/items/properties/size/properties/width",
+                "type": "integer",
+                "title": "Layer width",
+                "default": 0,
+                "examples": [
+                  1153
+                ]
+              }
+            }
+          },
+          "src": {
+            "$id": "#/properties/layers/items/properties/src",
+            "type": "string",
+            "title": "Layer image as base64 png",
+            "default": "",
+            "examples": [
+              "data:image/png;base64"
+            ],
+            "pattern": "^(.*)$"
+          },
+          "type": {
+            "$id": "#/properties/layers/items/properties/type",
+            "type": "string",
+            "title": "Layer type",
+            "description": "Values: normal, smart-object, color, cbx, mask (or msk)",
+            "default": "",
+            "examples": [
+              "normal"
+            ],
+            "pattern": "^(.*)$"
+          },
+          "visibility": {
+            "$id": "#/properties/layers/items/properties/visibility",
+            "type": "boolean",
+            "title": "Visibility boolean",
+            "default": false,
+            "examples": [
+              true
+            ]
+          },
+          "id": {
+            "$id": "#/properties/layers/items/properties/id",
+            "type": "string",
+            "title": "Layer ID",
+            "description": "Identifier generated by script, not from PSD",
+            "default": "",
+            "examples": [
+              "jqnr9ykuh4s9z15xklk"
+            ],
+            "pattern": "^(.*)$"
+          },
+          "mask": {
+            "$id": "#/properties/layers/items/properties/mask",
+            "type": "string",
+            "title": "Related layer ID",
+            "default": "",
+            "examples": [
+              "jqnr9ykuh4s9z15xklk"
+            ],
+            "pattern": "^(.*)$"
+          },
+          "blendMode": {
+            "$id": "#/properties/layers/items/properties/blendMode",
+            "type": "integer",
+            "title": "Blend mode",
+            "description": "Default to 0 as normal",
+            "default": 0,
+            "examples": [
+              0
+            ]
+          },
+          "position": {
+            "$id": "#/properties/layers/items/properties/position",
+            "type": "object",
+            "title": "Position object",
+            "default": null,
+            "required": [
+              "x",
+              "y"
+            ],
+            "properties": {
+              "x": {
+                "$id": "#/properties/layers/items/properties/position/properties/x",
+                "type": "integer",
+                "title": "X",
+                "description": "bounds[0]",
+                "default": 0,
+                "examples": [
+                  169
+                ]
+              },
+              "y": {
+                "$id": "#/properties/layers/items/properties/position/properties/y",
+                "type": "integer",
+                "title": "Y",
+                "description": "bounds[1]",
+                "default": 0,
+                "examples": [
+                  286
+                ]
+              }
+            }
+          }
+        }
+      }
+    },
+    "name": {
+      "$id": "#/properties/name",
+      "type": "string",
+      "title": "Name",
+      "description": "File name",
+      "default": "",
+      "examples": [
+        "double-DVD-CD-case-with-cover-album-design-mockup-generator-psd-template.psd"
+      ],
+      "pattern": "^(.*)$"
+    },
+    "size": {
+      "$id": "#/properties/size",
+      "type": "object",
+      "title": "Size",
+      "description": "Document size",
+      "default": null,
+      "required": [
+        "height",
+        "width"
+      ],
+      "properties": {
+        "height": {
+          "$id": "#/properties/size/properties/height",
+          "type": "integer",
+          "title": "Document height",
+          "default": 0,
+          "examples": [
+            1500
+          ]
+        },
+        "width": {
+          "$id": "#/properties/size/properties/width",
+          "type": "integer",
+          "title": "Document width",
+          "default": 0,
+          "examples": [
+            2200
+          ]
+        }
+      }
+    }
+  }
+}
