@@ -1,7 +1,7 @@
 import json
 import sys
 import getopt
-from typing import Union
+from typing import Union, Optional, Dict
 from uuid import uuid4
 
 from psd_tools import PSDImage
@@ -10,7 +10,7 @@ from psd_tools.api.smart_object import SmartObject
 from psd_tools.constants import BlendMode
 
 
-def extract_layer(layer: Layer):
+def extract_layer(layer: Layer) -> Dict[str, str]:
     item = {'id': str(uuid4()),
             'backgroundColor': '',
             'bounds': [layer.right,
@@ -38,33 +38,35 @@ def extract_layer(layer: Layer):
     return item
 
 
-def main(file_name: str):
-    image = PSDImage.open(file_name)
+def main(input_file: str, output_file: Optional[str] = None):
+    image = PSDImage.open(input_file)
 
     data = {}
     data['layers'] = []
     for layer in image:
-
-        # print(layer.blend_mode.name)
-        # if isinstance(layer, SmartObject):
-        #     print(layer.__dict__)
-
         item = extract_layer(layer)
-
-        # if layer.has_clip_layers():
-        #     for i in layer.clip_layers:
-        #         if isinstance(i, SmartObjectLayer):
-        #             print(i.__dict__)
         data['layers'].append(item)
 
-    print(json.dumps(data, indent=4, sort_keys=True))
+    if output_file:
+        with open(output_file, 'w') as file:
+            json.dump(data, file)
+    else:
+        print(json.dumps(data, indent=4, sort_keys=True))
 
 
 if __name__ == "__main__":
-    opts, argv = getopt.getopt(sys.argv[1:], "i:")
+    opts, argv = getopt.getopt(sys.argv[1:], "i:o:")
+
+    input_file_name = None
+    output_file_name = None
 
     for option, value in opts:
         if option == '-i':
-            file_name = value
+            input_file_name = value
+        if option == '-o':
+            output_file_name = value
 
-    main(file_name)
+    if not input_file_name:
+        print('Type input file: -i example.psd')
+    else:
+        main(input_file_name, output_file_name)
