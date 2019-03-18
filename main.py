@@ -1,3 +1,4 @@
+import io
 import json
 import re
 import sys
@@ -5,6 +6,7 @@ import getopt
 from typing import Union, Optional, Dict, Tuple
 from uuid import uuid4
 
+from PIL import Image
 from psd_tools import PSDImage
 from psd_tools.api.layers import Layer, SmartObjectLayer
 from psd_tools.api.smart_object import SmartObject
@@ -12,6 +14,7 @@ from psd_tools.constants import BlendMode
 from psd_tools.psd.layer_and_mask import LayerRecord
 from psd_tools.psd.tagged_blocks import TaggedBlock, PlacedLayerData
 
+from psd_tools import compose
 
 def truncate_prefix(name: str) -> str:
     return re.sub('mm_[^:]+:', '', name)
@@ -97,6 +100,19 @@ def main(input_file: str, output_file: Optional[str] = None):
     for layer in image:
         item = extract_layer(layer)
         data['layers'].append(item)
+
+        if layer.has_clip_layers():
+            for clip_layer in layer.clip_layers:
+                if isinstance(clip_layer, SmartObjectLayer):
+                    image = clip_layer.topil()
+
+                    print(clip_layer.name)
+                    print(image.save(f'data/{clip_layer.name}.png'))
+                    # clip_image = compose(clip_layer.smart_object)
+                    # print(clip_layer.)
+                    # clip_layer.save('data/image.png')
+
+
 
     if output_file:
         with open(output_file, 'w') as file:
