@@ -1,5 +1,6 @@
 import io
 import json
+import os
 import re
 import sys
 import getopt
@@ -7,6 +8,7 @@ from typing import Union, Optional, Dict, Tuple
 from uuid import uuid4
 
 from PIL import Image
+from pathlib import Path
 from psd_tools import PSDImage
 from psd_tools.api.layers import Layer, SmartObjectLayer
 from psd_tools.api.smart_object import SmartObject
@@ -92,7 +94,18 @@ def extract_smart_object(layer: SmartObjectLayer):
             return coords
 
 
-def main(input_file: str, output_file: Optional[str] = None):
+def save_layer_as_png(layer, dir_path: Path = Path('.')):
+    if not dir_path.exists():
+        dir_path.mkdir()
+
+    if isinstance(layer, SmartObjectLayer):
+        image = layer.topil()
+
+        file_name = truncate_prefix(layer.name)
+        image.save(dir_path / f'{file_name}.png')
+
+
+def main(input_file: str, output_file: Optional[str] = None, dir_name: Path = Path('.')):
     image = PSDImage.open(input_file)
 
     data = {}
@@ -103,14 +116,14 @@ def main(input_file: str, output_file: Optional[str] = None):
 
         if layer.has_clip_layers():
             for clip_layer in layer.clip_layers:
-                if isinstance(clip_layer, SmartObjectLayer):
-                    image = clip_layer.topil()
-
-                    print(clip_layer.name)
-                    print(image.save(f'data/{clip_layer.name}.png'))
-                    # clip_image = compose(clip_layer.smart_object)
-                    # print(clip_layer.)
-                    # clip_layer.save('data/image.png')
+                # if isinstance(clip_layer, SmartObjectLayer):
+                save_layer_as_png(clip_layer, dir_name)
+                # image = clip_layer.topil()
+                # print(clip_layer.name)
+                # print(image.save(f'data/{clip_layer.name}.png'))
+                # clip_image = compose(clip_layer.smart_object)
+                # print(clip_layer.)
+                # clip_layer.save('data/image.png')
 
 
 
@@ -122,18 +135,21 @@ def main(input_file: str, output_file: Optional[str] = None):
 
 
 if __name__ == "__main__":
-    opts, argv = getopt.getopt(sys.argv[1:], "i:o:")
+    opts, argv = getopt.getopt(sys.argv[1:], "i:o:d:")
 
     input_file_name = None
-    output_file_name = None
+    data_file_name = None
+    output_dir_name = Path('.')
 
     for option, value in opts:
         if option == '-i':
             input_file_name = value
         if option == '-o':
-            output_file_name = value
+            data_file_name = value
+        if option == '-d':
+            output_dir_name = Path(value)
 
     if not input_file_name:
         print('Type input file: -i example.psd')
     else:
-        main(input_file_name, output_file_name)
+        main(input_file_name, data_file_name, output_dir_name)
