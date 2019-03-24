@@ -102,7 +102,7 @@ def save_layer_as_png(layer, dir_path: Path = Path('.')):
         image = layer.topil()
 
         file_name = truncate_prefix(layer.name)
-        image.save(dir_path / f'{file_name}.png')
+        image.save(f'{dir_path}/{file_name}.png')
 
 
 def main(input_file: str, output_file: Optional[str] = None, dir_name: Path = Path('.')):
